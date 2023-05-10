@@ -22,10 +22,8 @@ function ResetPassword() {
     if (newPassword.trim().length < 6)
       dispatch(setError("The password must be more then 6 chars."));
 
-    // dispatch(resetPassword({ email }));
-    // console.log(newPassword);
-
-    // if token
+    dispatch(resetPassword({ email }));
+    console.log(newPassword);
   };
 
   if (isLoading) {

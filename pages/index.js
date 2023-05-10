@@ -1,19 +1,20 @@
 import AuthForm from "@/components/Auth-components/AuthForm";
 import { useRouter } from "next/router";
-import { Fragment } from "react";
 import { useSelector } from "react-redux";
 
 export default function Home() {
   const router = useRouter();
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const email = useSelector((state) => state.user.email);
 
-  if (isAuthenticated) {
+  // if token
+
+  if (email) {
     router.replace("/programmes");
     return null;
   }
   return (
-    <section className=" w-full h-screen flex justify-center items-center">
-      Home page{" "}
-    </section>
+    <div className=" flex bg-white/80 justify-center items-center w-full h-[100vh]">
+      <AuthForm />
+    </div>
   );
 }

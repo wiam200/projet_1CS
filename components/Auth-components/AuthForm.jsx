@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, setError } from "@/store/userStore/reducers/userReducer";
+import { login, setError } from "@/store/authStore/reducers/userReducer";
 import Link from "next/link";
 import Image from "next/image";
 import Spinner from "../UI/Spinner";
@@ -34,12 +34,10 @@ function AuthForm() {
       password.trim().length > 6
     ) {
       dispatch(login({ email, password }));
-      router.replace("/programmes");
+      router.replace("/");
     } else {
       dispatch(setError("invalid email or password !"));
     }
-
-    // if token
   };
 
   if (isLoading) {
