@@ -16,7 +16,6 @@ function AuthForm() {
   const isLoading = useSelector((state) => state.user.isLoading);
   const error = useSelector((state) => state.user.error);
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.user.user);
   const router = useRouter();
 
   // useEffect(() => {
@@ -34,7 +33,6 @@ function AuthForm() {
       password.trim().length > 6
     ) {
       dispatch(login({ email, password }));
-      router.replace("/");
     } else {
       dispatch(setError("invalid email or password !"));
     }
@@ -45,7 +43,7 @@ function AuthForm() {
   }
 
   return (
-    <div className=" w-full h-full flex justify-center items-center">
+    <div className=" w-full h-full  flex justify-center items-center">
       <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[35%]   h-[85%] space-y-4">
         <div className=" w-full h-[10px] bg-[#023047]/80  rounded-md"></div>
 

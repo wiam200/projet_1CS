@@ -7,7 +7,7 @@
 body {
   padding: 0%;
   margin: 0%;
-  background-color: rgb(241, 241, 241);
+  background-color: white;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -17,5 +17,8 @@ body {
   }
   .action {
     @apply py-2 w-full mb-6 rounded-lg  bg-blue-950 hover:bg-[#1c3772] text-white;
+  }
+  .center {
+    @apply flex justify-center items-center;
   }
 }

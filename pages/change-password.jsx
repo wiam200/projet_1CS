@@ -1,4 +1,4 @@
-import ResetPassword from "@/components/Auth-components/Reset-password";
+import ResetPassword from "@/components/Auth_components/Reset-password";
 import React from "react";
 
 function changePassword() {
