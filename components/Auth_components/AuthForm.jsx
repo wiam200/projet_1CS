@@ -8,7 +8,6 @@ import Image from "next/image";
 import Spinner from "../UI/Spinner";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
-import { useRouter } from "next/router";
 
 function AuthForm() {
   const [email, setEmail] = useState("");
@@ -16,7 +15,6 @@ function AuthForm() {
   const isLoading = useSelector((state) => state.user.isLoading);
   const error = useSelector((state) => state.user.error);
   const dispatch = useDispatch();
-  const router = useRouter();
 
   // useEffect(() => {
   //   if (userData) {

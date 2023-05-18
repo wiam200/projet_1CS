@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 const Layout = ({ children }) => {
   // Check if the current page is the login page
   const router = useRouter();
-  const isLoginPage = router.pathname === "/";
+  //   const isLoginPage = router.pathname === "/";
 
   //   {!isLoginPage && <NavBar />}
   // Render the layout with or without the navbar based on the login page condition
