@@ -3,11 +3,13 @@ import axios from "axios";
 
 const initialState = {
   email: null,
-  password: null,
+  // userName: null,
+  // password: null,
   token: null,
   role: null,
   isLoading: false,
   error: null,
+  passwordResetSuccess: false,
 };
 
 const userSlice = createSlice({
@@ -29,6 +31,9 @@ const userSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    // setUserName: (state, action) => {
+    //   state.userName = action.payload;
+    // },
     setPasswordResetSuccess: (state, action) => {
       state.passwordResetSuccess = action.payload;
     },
@@ -37,7 +42,7 @@ const userSlice = createSlice({
 
 // THUNK :action creators  : functions which return functions
 
-export const login = ({ email, password }) => {
+export const login = ({ useremail, password }) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
 
@@ -45,16 +50,17 @@ export const login = ({ email, password }) => {
       const response = await axios.post(
         "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
         {
-          email,
+          useremail,
           password,
         }
       );
 
-      const { token, role, userName } = response.data;
+      const { token, role, userName, email } = response.data;
       // verifie
       dispatch(setToken(response.data.id));
       dispatch(setEmail(email));
-      dispatch(setRole(role));
+      dispatch(setRole("admin"));
+      // dispatch(setUserName(userName));
       dispatch(setError(null));
 
       // const { email,password}=res.data
@@ -70,40 +76,37 @@ export const login = ({ email, password }) => {
 };
 
 // // Action creator for resetting the password of the user
-// // export const resetPassword = (email) => async (dispatch) => {
-// //   dispatch(setLoading(true));
-// //   dispatch(setPasswordResetError(null));
+export const resetPassword = (email) => async (dispatch) => {
+  dispatch(setLoading(true));
+  dispatch(setPasswordResetError(null));
 
-// //   try {
-// //     await firebase.auth().sendPasswordResetEmail(email);
-// //     const response = await axios.get(
-// //       "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json"
-// //     );
+  try {
+    const response = await axios.post("/api/reset-password", {
+      newPassword,
+      confirmPassword,
+    });
 
-// //     const [users] = await response.data;
+    const data = await response.data;
+    if (data.ok) {
+      // Password reset email sent successfully
+      dispatch(setPasswordResetSuccess(true));
+    }
+  } catch (error) {
+    // Password reset email failed to send
+    dispatch(setError(error));
+  }
 
-// //     const existingUser = users.filter((user) => user.email == email);
-// //     console.log(existingUser);
-// //     // Mettre à jour le mot de passe de l'utilisateur en utilisant le lien de réinitialisation de mot de passe envoyé par e-mail
-// //     await firebase.auth().confirmPasswordReset(actionCode, newPassword);
-// //     // Password reset email sent successfully
-// //     dispatch(setPasswordResetSuccess(true));
-// //   } catch (error) {
-// //     // Password reset email failed to send
-// //   }
-
-//   dispatch(setLoading(false));
-// };
+  dispatch(setLoading(false));
+};
 
 export const {
   logoutSuccess,
   setLoading,
   setToken,
   setEmail,
-  setUser,
   setRole,
   setError,
-  // setPasswordResetError,
+  setPasswordResetError,
 } = userSlice.actions;
 
 export default userSlice.reducer;
