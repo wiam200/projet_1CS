@@ -5,7 +5,7 @@ import Image from "next/image";
 import Spinner from "../UI/Spinner";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
-import { resetPassword } from "@/store/authStore/reducers/userReducer";
+import { resetPassword } from "@/store/reducers/userReducer";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -24,7 +24,7 @@ function ResetPassword() {
       dispatch(setError("The password must be more then 6 chars."));
 
     dispatch(resetPassword({ email }));
-    console.log(newPassword);
+    // console.log(newPassword);
   };
 
   if (isLoading) {
@@ -32,13 +32,13 @@ function ResetPassword() {
   }
 
   return (
-    <div className=" w-full h-full flex justify-center items-center">
-      <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[35%]   h-[85%] space-y-4">
+    <div className=" w-full h-full  flex justify-center items-center">
+      <div className=" flex flex-col w-[98%] h-[70%] md:w-[60%]  lg:w-[40%]   lg:h-[85%] space-y-4">
         <div className=" w-full h-[10px] bg-[#023047]/80  rounded-md"></div>
 
         <form
           onSubmit={ResetPasswordHandler}
-          className=" bg-white py-8 px-16 space-y-12 w-full h-full rounded-[16px] shadow-xl"
+          className=" bg-gray-50 py-8 px-6 md:px-14 space-y-12 w-full h-full rounded-[16px] shadow-xl"
         >
           <div className=" w-full flex justify-center">
             <Image
