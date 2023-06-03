@@ -8,8 +8,10 @@ function Input(props) {
         id={props.id}
         value={props.value}
         required
+        min="0"
+        max="5,000,000"
         onChange={props.onChange}
-        className="block p-6 pr-16 w-full text-base text-gray-900 bg-white h-full rounded-[10px] border-1 border-gray-300 appearance-none text-[#023047]/90 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        className="block p-6  w-full text-base text-gray-900 bg-white h-full rounded-[10px] border-1 border-gray-300 appearance-none text-[#023047]/90 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder=" "
       />
       <label

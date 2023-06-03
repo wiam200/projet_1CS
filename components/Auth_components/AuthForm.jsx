@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
 import { login, setError } from "../../store/reducers/userReducer";
+=======
+import { login, setError } from "@/store/reducers/userReducer";
+>>>>>>> 3cbdea4 (overview and budget pages with some other changes)
 import Link from "next/link";
 import Image from "next/image";
 import Spinner from "../UI/Spinner";
@@ -16,11 +20,6 @@ function AuthForm() {
   const error = useSelector((state) => state.user.error);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (userData) {
-  //     router.replace("/");
-  //   }
-  // }, [router, userData]);
   const loginHandler = async (event) => {
     event.preventDefault();
 
@@ -42,12 +41,12 @@ function AuthForm() {
 
   return (
     <div className=" w-full h-full  flex justify-center items-center">
-      <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[35%]   h-[85%] space-y-4">
+      <div className=" flex flex-col w-[98%] h-[70%] md:w-[60%]  lg:w-[40%]   lg:h-[85%] space-y-4">
         <div className=" w-full h-[10px] bg-[#023047]/80  rounded-md"></div>
 
         <form
           onSubmit={loginHandler}
-          className=" bg-white py-8 px-8 md:px-16 space-y-12 w-full h-full rounded-[16px] shadow-xl"
+          className=" bg-gray-50 py-8 px-6 md:px-14 space-y-12 center flex-col  w-full h-full rounded-[16px] shadow-xl"
         >
           <div className=" w-full flex justify-center">
             <Image
@@ -57,7 +56,7 @@ function AuthForm() {
               height={180}
             />
           </div>
-          <div className=" space-y-6 flex flex-col">
+          <div className=" space-y-6 w-full h-full flex flex-col">
             <div className=" w-full space-y-6">
               <Input
                 type="email"

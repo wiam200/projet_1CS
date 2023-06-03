@@ -10,3 +10,22 @@ function changePassword() {
 }
 
 export default changePassword;
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const token = req.cookies.token; // Get the token from the request cookies
+  const isAuthenticated = !!token;
+
+  if (isAuthenticated) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

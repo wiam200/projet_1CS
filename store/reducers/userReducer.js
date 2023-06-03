@@ -1,15 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import axios from "axios";
 import Cookies from "js-cookie";
 const initialState = {
+<<<<<<< HEAD
   userEmail: "",
   userName: null,
   // password: null,
+=======
+  email: null,
+  userName: null,
+>>>>>>> 3cbdea4 (overview and budget pages with some other changes)
   token: null,
   role: null,
   isLoading: false,
   error: null,
   passwordResetSuccess: false,
+  passwordResetError: null,
 };
 
 const userSlice = createSlice({
@@ -37,6 +44,9 @@ const userSlice = createSlice({
     setPasswordResetSuccess: (state, action) => {
       state.passwordResetSuccess = action.payload;
     },
+    setPasswordResetError: (state, action) => {
+      state.passwordResetError = action.payload;
+    },
   },
 });
 
@@ -56,6 +66,7 @@ export const login = ({ userEmail, password }) => {
         }
       );
 
+<<<<<<< HEAD
       const { token, role, userName, email } = response.data.data;
       console.log(response.data.data.token);
       // verifie
@@ -68,6 +79,19 @@ export const login = ({ userEmail, password }) => {
       // const { email,password}=res.data
 
       Cookies.set("token", token, { expires: 1, path: "/" });
+=======
+      const { token, role, userName, email } = response.data;
+      dispatch(setToken("sdcscnfivnwWTRYBVOScnscscnsv"));
+      dispatch(setEmail(email));
+      dispatch(setRole("admin"));
+      dispatch(setUserName("mehal wiam"));
+      dispatch(setError(null));
+
+      // const { email,password}=res.data
+      // Store the token in a cookie
+      Cookies.set("token", "mehal wiam hihihiihi", { expires: 1, path: "/" });
+      // localStorage.setItem("jwt", "sdcscnfivnwWTRYBVOScnscscnsv");
+>>>>>>> 3cbdea4 (overview and budget pages with some other changes)
     } catch (error) {
       dispatch(setToken(null));
       dispatch(setError(error));
@@ -77,10 +101,15 @@ export const login = ({ userEmail, password }) => {
   };
 };
 
-// // Action creator for resetting the password of the user
+// log out
+
+export const logOut = () => async (dispatch) => {
+  dispatch(setToken(null));
+};
+
+// Action creator for resetting the password of the user
 export const resetPassword = (email) => async (dispatch) => {
   dispatch(setLoading(true));
-  dispatch(setPasswordResetError(null));
 
   try {
     const response = await axios.post("/api/reset-password", {
@@ -95,21 +124,46 @@ export const resetPassword = (email) => async (dispatch) => {
     }
   } catch (error) {
     // Password reset email failed to send
-    dispatch(setError(error));
+    dispatch(setPasswordResetError(error));
   }
 
   dispatch(setLoading(false));
 };
 
+// Action creator for changing password of the user from profile
+
+export const changePassword =
+  ({ email, oldPassword, newPassword }) =>
+  async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const response = await axios.post("/api/change-password", {
+        email,
+        oldPassword,
+        newPassword,
+      });
+
+      const data = await response.data;
+      if (data.ok) {
+        // Password  sent successfully
+        dispatch(setPasswordResetSuccess(true));
+      }
+    } catch (error) {
+      // Password  failed to change
+      dispatch(setPasswordResetError(error));
+    }
+  };
+
 export const {
-  logoutSuccess,
   setLoading,
   setToken,
   setUserEmail,
   setRole,
   setUserName,
   setError,
+  setUserName,
   setPasswordResetError,
+  setPasswordResetSuccess,
 } = userSlice.actions;
 
 export default userSlice.reducer;
