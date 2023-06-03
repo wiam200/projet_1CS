@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const initialState = {
-  userEmail: null,
+  email: null,
   userName: null,
   token: null,
   role: null,
@@ -52,24 +52,24 @@ export const login = ({ useremail, password }) => {
 
     try {
       const response = await axios.post(
-        // "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
-        "http://192.168.129.1/QuantumLeap/BackEnd/public/api/login",
+        "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
         {
-          email,
+          useremail,
           password,
         }
       );
 
-      const { token, role, userName } = response.data;
-      dispatch(setToken(token));
-      // dispatch(setEmail(email));
-      dispatch(setRole(role));
-      dispatch(setUserName(userName));
+      const { token, role, userName, email } = response.data;
+      dispatch(setToken("sdcscnfivnwWTRYBVOScnscscnsv"));
+      dispatch(setEmail(email));
+      dispatch(setRole("admin"));
+      dispatch(setUserName("mehal wiam"));
       dispatch(setError(null));
 
       // const { email,password}=res.data
       // Store the token in a cookie
       Cookies.set("token", "mehal wiam hihihiihi", { expires: 1, path: "/" });
+      // localStorage.setItem("jwt", "sdcscnfivnwWTRYBVOScnscscnsv");
     } catch (error) {
       dispatch(setToken(null));
       dispatch(setError(error));
