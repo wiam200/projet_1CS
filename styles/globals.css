@@ -4,11 +4,25 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-color: #023047;
+  --primary-color-light: #d7effa;
+  --secindary-color: #ffb703;
+
+  --h1: 32px;
+  --h2: 28px;
+  --h3: 24px;
+  --h4: 20px;
+  --h5: 18px;
+  --h6: 16px;
+}
 body {
   padding: 0%;
   margin: 0%;
   background-color: white;
   font-family: "Montserrat", sans-serif;
+  font-size: var(--h6);
+  color: var(--primary-color);
 }
 
 @layer components {
@@ -20,5 +34,9 @@ body {
   }
   .center {
     @apply flex justify-center items-center;
+  }
+  .group:hover input,
+  .group:hover span {
+    @apply border border-blue-900;
   }
 }
