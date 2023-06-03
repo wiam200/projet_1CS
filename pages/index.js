@@ -8,7 +8,7 @@ export default function Home() {
   const role = useSelector((state) => state.user.role);
 
   // if  token &&
-
+  console.log(role);
   if (role === "admin") {
     router.push("/dashboard");
     return null;

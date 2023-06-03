@@ -10,7 +10,7 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 
 function AuthForm() {
-  const [email, setEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const isLoading = useSelector((state) => state.user.isLoading);
   const error = useSelector((state) => state.user.error);
@@ -25,12 +25,12 @@ function AuthForm() {
     event.preventDefault();
 
     if (
-      email &&
-      email.includes("@") &&
+      userEmail &&
+      userEmail.includes("@") &&
       password &&
       password.trim().length > 6
     ) {
-      dispatch(login({ email, password }));
+      dispatch(login({ userEmail, password }));
     } else {
       dispatch(setError("invalid email or password !"));
     }
@@ -63,8 +63,8 @@ function AuthForm() {
                 type="email"
                 id="email"
                 label="Email"
-                onChange={(event) => setEmail(event.target.value)}
-                value={email}
+                onChange={(event) => setUserEmail(event.target.value)}
+                value={userEmail}
               />
               <Input
                 type="password"

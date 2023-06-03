@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const initialState = {
-  email: null,
-  // userName: null,
+  userEmail: "",
+  userName: null,
   // password: null,
   token: null,
   role: null,
@@ -19,8 +19,8 @@ const userSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    setEmail: (state, action) => {
-      state.email = action.payload;
+    setUserEmail: (state, action) => {
+      state.userEmail = action.payload;
     },
     setRole: (state, action) => {
       state.role = action.payload;
@@ -31,9 +31,9 @@ const userSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
-    // setUserName: (state, action) => {
-    //   state.userName = action.payload;
-    // },
+    setUserName: (state, action) => {
+      state.userName = action.payload;
+    },
     setPasswordResetSuccess: (state, action) => {
       state.passwordResetSuccess = action.payload;
     },
@@ -42,30 +42,32 @@ const userSlice = createSlice({
 
 // THUNK :action creators  : functions which return functions
 
-export const login = ({ useremail, password }) => {
+export const login = ({ userEmail, password }) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
 
     try {
       const response = await axios.post(
-        "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
+        // "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
+        "http://192.168.129.1/QuantumLeap/BackEnd/public/api/login",
         {
-          useremail,
+          userEmail,
           password,
         }
       );
 
-      const { token, role, userName, email } = response.data;
+      const { token, role, userName, email } = response.data.data;
+      console.log(response.data.data.token);
       // verifie
-      dispatch(setToken(response.data.id));
-      dispatch(setEmail(email));
-      dispatch(setRole("admin"));
-      // dispatch(setUserName(userName));
+      dispatch(setToken(token));
+      dispatch(setUserEmail(email));
+      dispatch(setRole(role));
+      dispatch(setUserName(userName));
       dispatch(setError(null));
 
       // const { email,password}=res.data
 
-      localStorage.setItem("jwt", token);
+      Cookies.set("token", token, { expires: 1, path: "/" });
     } catch (error) {
       dispatch(setToken(null));
       dispatch(setError(error));
@@ -103,8 +105,9 @@ export const {
   logoutSuccess,
   setLoading,
   setToken,
-  setEmail,
+  setUserEmail,
   setRole,
+  setUserName,
   setError,
   setPasswordResetError,
 } = userSlice.actions;
