@@ -5,7 +5,7 @@ import Image from "next/image";
 import Spinner from "../UI/Spinner";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
-import { resetPassword } from "@/store/authStore/reducers/userReducer";
+import { resetPassword } from "../../store/reducers/userReducer";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");

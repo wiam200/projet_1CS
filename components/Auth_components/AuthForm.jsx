@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, setError } from "@/store/authStore/reducers/userReducer";
+import { login, setError } from "../../store/reducers/userReducer";
 import Link from "next/link";
 import Image from "next/image";
 import Spinner from "../UI/Spinner";
