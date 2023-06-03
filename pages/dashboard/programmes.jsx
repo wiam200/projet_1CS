@@ -1,7 +1,12 @@
+import Programmes from "@/components/Admin/admin-programmes/Programmes";
 import React from "react";
 
 function programmes() {
-  return <div>programmes</div>;
+  return (
+    <div>
+      <Programmes />
+    </div>
+  );
 }
 
 export default programmes;

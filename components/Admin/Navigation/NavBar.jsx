@@ -36,7 +36,7 @@ function NavBar() {
           </Link>
         </li>
         <li>
-          <Link href="/users" className="relative">
+          <Link href="/dashboard/users" className="relative">
             <FaUsersCog className=" w-[25px] h-[25px]" />
             <div className="absolute  w-4 h-4 center text-xs  bg-red-500 text-white/90 rounded-full top-3 -right-9 ">
               <span>7</span>

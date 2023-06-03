@@ -34,7 +34,7 @@ function ProfileCircle() {
         </div>
       </div>
       {profileState && (
-        <div className=" absolute top-14 overflow-scroll right-0 bg-gray-50 border border-gray-100 w-[200px]  py-4 text-[16px]  rounded-lg shadow-lg center ">
+        <div className=" absolute top-14 overflow-scroll right-0 bg-gray-50 border border-gray-100 w-[200px]  py-4 text-[16px] z-40 rounded-lg shadow-lg center ">
           <ul className=" w-full h-full ">
             <li className=" hover:bg-gray-100 w-full py-2 px-6 ">
               <Link href="/dashboard/profile"> Your Profile</Link>

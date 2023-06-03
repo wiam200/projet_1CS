@@ -35,4 +35,8 @@ body {
   .center {
     @apply flex justify-center items-center;
   }
+  .group:hover input,
+  .group:hover span {
+    @apply border border-blue-900;
+  }
 }
