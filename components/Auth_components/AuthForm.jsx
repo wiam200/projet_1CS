@@ -2,11 +2,8 @@ import React from "react";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-<<<<<<< HEAD
 import { login, setError } from "../../store/reducers/userReducer";
-=======
-import { login, setError } from "@/store/reducers/userReducer";
->>>>>>> 3cbdea4 (overview and budget pages with some other changes)
+
 import Link from "next/link";
 import Image from "next/image";
 import Spinner from "../UI/Spinner";

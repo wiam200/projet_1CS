@@ -1,16 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Cookies from "js-cookie";
+
 const initialState = {
-<<<<<<< HEAD
-  userEmail: "",
-  userName: null,
-  // password: null,
-=======
   email: null,
   userName: null,
->>>>>>> 3cbdea4 (overview and budget pages with some other changes)
   token: null,
   role: null,
   isLoading: false,
@@ -26,8 +20,8 @@ const userSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    setUserEmail: (state, action) => {
-      state.userEmail = action.payload;
+    setEmail: (state, action) => {
+      state.email = action.payload;
     },
     setRole: (state, action) => {
       state.role = action.payload;
@@ -52,34 +46,19 @@ const userSlice = createSlice({
 
 // THUNK :action creators  : functions which return functions
 
-export const login = ({ userEmail, password }) => {
+export const login = ({ useremail, password }) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
 
     try {
       const response = await axios.post(
-        // "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
-        "http://192.168.129.1/QuantumLeap/BackEnd/public/api/login",
+        "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
         {
-          userEmail,
+          useremail,
           password,
         }
       );
 
-<<<<<<< HEAD
-      const { token, role, userName, email } = response.data.data;
-      console.log(response.data.data.token);
-      // verifie
-      dispatch(setToken(token));
-      dispatch(setUserEmail(email));
-      dispatch(setRole(role));
-      dispatch(setUserName(userName));
-      dispatch(setError(null));
-
-      // const { email,password}=res.data
-
-      Cookies.set("token", token, { expires: 1, path: "/" });
-=======
       const { token, role, userName, email } = response.data;
       dispatch(setToken("sdcscnfivnwWTRYBVOScnscscnsv"));
       dispatch(setEmail(email));
@@ -91,7 +70,6 @@ export const login = ({ userEmail, password }) => {
       // Store the token in a cookie
       Cookies.set("token", "mehal wiam hihihiihi", { expires: 1, path: "/" });
       // localStorage.setItem("jwt", "sdcscnfivnwWTRYBVOScnscscnsv");
->>>>>>> 3cbdea4 (overview and budget pages with some other changes)
     } catch (error) {
       dispatch(setToken(null));
       dispatch(setError(error));
@@ -157,9 +135,8 @@ export const changePassword =
 export const {
   setLoading,
   setToken,
-  setUserEmail,
+  setEmail,
   setRole,
-  setUserName,
   setError,
   setUserName,
   setPasswordResetError,

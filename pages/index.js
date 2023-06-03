@@ -7,7 +7,7 @@ export default function Home(props) {
   const role = useSelector((state) => state.user.role);
 
   // if  token &&
-<<<<<<< HEAD
+
   console.log(role);
   if (role === "admin") {
     router.push("/dashboard");
@@ -15,19 +15,18 @@ export default function Home(props) {
   } else if (role === "user") {
     router.push("/client");
     return null;
-=======
 
-  if (token && role === "admin") {
-    window.location.href = "/dashboard";
-  } else if (token && role === "user") {
-    window.location.href = "/dashboard";
->>>>>>> 3cbdea4 (overview and budget pages with some other changes)
+    if (token && role === "admin") {
+      window.location.href = "/dashboard";
+    } else if (token && role === "user") {
+      window.location.href = "/dashboard";
+    }
+    return (
+      <div className=" center  bg-white/80 w-full h-[100vh]">
+        <AuthForm />
+      </div>
+    );
   }
-  return (
-    <div className=" center  bg-white/80 w-full h-[100vh]">
-      <AuthForm />
-    </div>
-  );
 }
 
 export async function getServerSideProps(context) {
