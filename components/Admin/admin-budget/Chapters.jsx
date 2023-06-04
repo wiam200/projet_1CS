@@ -3,12 +3,6 @@ import React from "react";
 function Chapters(props) {
   const chapters = props;
 
-  const items = [];
-
-  for (const key in chapters.data) {
-    const item = chapters.data[key];
-    items.push({ id: key, ...item });
-  }
   return (
     <div className=" w-full">
       <ul className=" grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-6 h-full">

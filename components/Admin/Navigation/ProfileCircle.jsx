@@ -12,6 +12,7 @@ function ProfileCircle() {
 
   const logOutHandler = () => {
     dispactch(logOut());
+    console.log("wiam");
     Cookies.remove("token");
   };
 

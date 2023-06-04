@@ -1,11 +1,18 @@
 import Users from "@/components/Admin/admin-users/Users";
+import { setUsersList } from "@/store/reducers/usersReducer";
+import axios from "axios";
+import Cookies from "js-cookie";
 import React from "react";
+import { useDispatch } from "react-redux";
 
-function users() {
+function User(props) {
+  const dispatch = useDispatch();
+
+  dispatch(setUsersList(props.usersList));
   return <Users />;
 }
 
-export default users;
+export default User;
 
 export async function getServerSideProps(context) {
   const { req } = context;
@@ -20,8 +27,18 @@ export async function getServerSideProps(context) {
       },
     };
   }
-
+  const response = await axios.get(
+    "http://192.168.129.1/QuantumLeap/public/api/users",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const usersList = await response.data.data;
   return {
-    props: {},
+    props: {
+      usersList,
+    },
   };
 }

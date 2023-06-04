@@ -42,12 +42,12 @@ function AuthForm() {
 
   return (
     <div className=" w-full h-full  flex justify-center items-center">
-      <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[35%]   h-[85%] space-y-4">
+      <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[45%]   h-[85%] space-y-4">
         <div className=" w-full h-[10px] bg-[#023047]/80  rounded-md"></div>
 
         <form
           onSubmit={loginHandler}
-          className=" bg-white py-8 px-8 md:px-16 space-y-12 w-full h-full rounded-[16px] shadow-xl"
+          className=" bg-[#fff] py-8 px-8 md:px-16 space-y-12 w-full h-full rounded-[16px] shadow-xl"
         >
           <div className=" w-full flex justify-center">
             <Image

@@ -6,70 +6,68 @@ import { useDispatch, useSelector } from "react-redux";
 import { setModelAddUserIsVisible } from "@/store/reducers/uiReducer";
 import AddUser from "./pop-ups/AddUser";
 import axios from "axios";
+import { deleteUser } from "../../../store/reducers/usersReducer";
 
-const DUMMY_USERS = [
-  {
-    id: 1,
-    name: "Belagha ayoub",
-    email: "ah.belagha@esi-sba.dz",
-    job: "Laravel Developer ",
-    role: "admin",
-  },
-  {
-    id: 2,
-    name: "Mehal wiam",
-    email: "w.mehal@esi-sba.dz",
-    job: "NextJs Developer ",
+// const DUMMY_USERS = [
+//   {
+//     id: 1,
+//     name: "Belagha ayoub",
+//     email: "ah.belagha@esi-sba.dz",
+//     job: "Laravel Developer ",
+//     role: "admin",
+//   },
+//   {
+//     id: 2,
+//     name: "Mehal wiam",
+//     email: "w.mehal@esi-sba.dz",
+//     job: "NextJs Developer ",
 
-    role: "employee",
-  },
-  {
-    id: 3,
-    name: "Yahiaoui meriem",
-    email: "m.yahiaoui@esi-sba.dz",
-    job: "Vue JS Developer ",
+//     role: "employee",
+//   },
+//   {
+//     id: 3,
+//     name: "Yahiaoui meriem",
+//     email: "m.yahiaoui@esi-sba.dz",
+//     job: "Vue JS Developer ",
 
-    role: "employee",
-  },
-  {
-    id: 4,
-    name: "Meddad merouane",
-    email: "m.meddad@esi-sba.dz",
-    job: " UI/UX designer ",
+//     role: "employee",
+//   },
+//   {
+//     id: 4,
+//     name: "Meddad merouane",
+//     email: "m.meddad@esi-sba.dz",
+//     job: " UI/UX designer ",
 
-    role: "employee",
-  },
-  {
-    id: 5,
-    name: "Rouha nesrine",
-    email: "nr.rouha@esi-sba.dz",
-    job: "Laravel Developer",
+//     role: "employee",
+//   },
+//   {
+//     id: 5,
+//     name: "Rouha nesrine",
+//     email: "nr.rouha@esi-sba.dz",
+//     job: "Laravel Developer",
 
-    role: "employee",
-  },
-  {
-    id: 6,
-    name: "Chelaoua naila",
-    email: "n.chelaoua@esi-sba.dz",
-    job: "Laravel Developer",
+//     role: "employee",
+//   },
+//   {
+//     id: 6,
+//     name: "Chelaoua naila",
+//     email: "n.chelaoua@esi-sba.dz",
+//     job: "Laravel Developer",
 
-    role: "employee",
-  },
-];
+//     role: "employee",
+//   },
+// ];
 
 function UsersList() {
+  const usersList = useSelector((state) => state.users.usersList);
   const dispatch = useDispatch();
   const modelAddUserIsVisible = useSelector(
     (state) => state.ui.modelAddUserIsVisible
   );
-  const [users, setUsers] = useState(DUMMY_USERS);
-  const deleteUserHandler = async (Id) => {
-    // // send request with the id of user and waiting for the updated array to setUsers with
-    // const response = await axios.post('url', Id);
-    // const { updatedUsers } = response.data;
-    // setUsers(updatedUsers);
-    const newUsers = users.filter((user) => user.id !== Id);
-    setUsers(newUsers);
+  // const [users, setUsers] = useState(DUMMY_USERS);
+  const deleteUserHandler = async (id) => {
+    console.log(id);
+    dispatch(deleteUser(id));
   };
   return (
     <Fragment>
@@ -77,7 +75,7 @@ function UsersList() {
         <table className="w-full text-sm text-left text-gray-500  ">
           <ListHead />
           <tbody>
-            {users.map((user) => {
+            {usersList.map((user) => {
               return (
                 <tr
                   key={user.id}
@@ -128,7 +126,7 @@ function UsersList() {
                       href="#"
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                     >
-                      {user.role}
+                      {user.role === 0 ? "admin" : "employee"}
                     </a>
                   </td>{" "}
                   <td className="px-6 py-4">

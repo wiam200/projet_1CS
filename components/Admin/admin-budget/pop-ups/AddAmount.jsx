@@ -38,7 +38,7 @@ function AddAmount() {
 
   return (
     <ModelBackup>
-      <form className=" w-full space-y-10 flex-col" onSubmit={addHandler}>
+      <form className=" w-full space-y-10 flex-col z-40" onSubmit={addHandler}>
         <div className=" space-y-5">
           <Input
             type="text"

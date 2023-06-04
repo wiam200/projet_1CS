@@ -3,6 +3,8 @@ import React from "react";
 import { Collapse } from "antd";
 import ActionButton from "@/components/UI/ActionButton";
 import Header from "./Header";
+import { useSelector } from "react-redux";
+import AddAmount from "../admin-budget/pop-ups/AddAmount";
 const { Panel } = Collapse;
 const text = `
   A dog is a type of domesticated animal.
@@ -114,6 +116,8 @@ const programmesList = [
   },
 ];
 const Programmes = () => {
+  const addIsVisible = useSelector((state) => state.ui.modelAddIsVisible);
+
   const onChange = (key) => {
     console.log(key);
   };
@@ -155,6 +159,7 @@ const Programmes = () => {
           );
         })}
       </Collapse>
+      {addIsVisible && <AddAmount />}
     </section>
   );
 };

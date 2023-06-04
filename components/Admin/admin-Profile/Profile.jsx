@@ -6,13 +6,13 @@ import {
   changePassword,
   passwordResetSuccess,
   setError,
+  setPasswordResetSuccess,
 } from "@/store/reducers/userReducer";
 import Button from "@/components/UI/Button";
+import { useRouter } from "next/router";
 
 function Profile() {
-  const userName = useSelector((state) => state.user.userName);
-  const email = useSelector((state) => state.user.email);
-
+  const changePasswordError = useSelector((state) => state.user.error);
   const changePasswordSuccess = useSelector(
     (state) => state.user.passwordResetSuccess
   );
@@ -21,6 +21,7 @@ function Profile() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
 
   const changePasswordHandler = (event) => {
     event.preventDefault();
@@ -34,7 +35,9 @@ function Profile() {
       confirmPassword.trim().length >= 6 &&
       newPassword === confirmPassword
     ) {
-      dispatch(changePassword({ email, oldPassword, newPassword }));
+      dispatch(changePassword({ newPassword }));
+      dispatch(setPasswordResetSuccess(true));
+      router.replace("/dashboard");
     } else {
       dispatch(setError("Something went wrong ."));
     }
@@ -89,6 +92,15 @@ function Profile() {
               value={confirmPassword}
             />
             <Button value="reset password" />
+            <div className=" text-red-600 text-center">
+              {changePasswordError}
+            </div>
+            {changePasswordSuccess && (
+              <div className=" text-green-700 text-center">
+                {" "}
+                Password changed successfully.
+              </div>
+            )}
           </form>
         </div>
       </div>

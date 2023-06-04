@@ -33,7 +33,7 @@ function ResetPassword() {
 
   return (
     <div className=" w-full h-full flex justify-center items-center">
-      <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[35%]   h-[85%] space-y-4">
+      <div className=" flex flex-col w-[95%] md:w-[60%] lg:w-[4w5%]   h-[85%] space-y-4">
         <div className=" w-full h-[10px] bg-[#023047]/80  rounded-md"></div>
 
         <form
