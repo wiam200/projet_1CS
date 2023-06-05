@@ -1,5 +1,7 @@
 import {
   setModelAddIsVisible,
+  setModelAddProgramIsVisible,
+  setModelAddSubProgramIsVisible,
   setModelAddUserIsVisible,
   setModelTransferIsVisible,
 } from "@/store/reducers/uiReducer";
@@ -14,11 +16,22 @@ function ModelBackup(props) {
   const showAddUserModel = useSelector(
     (state) => state.ui.modelAddUserIsVisible
   );
+  const showAddProgramModel = useSelector(
+    (state) => state.ui.modelAddProgramIsVisible
+  );
+
+  const showAddSubProgramModel = useSelector(
+    (state) => state.ui.modelAddSubProgramIsVisible
+  );
 
   const dispatch = useDispatch();
   return (
     <div>
-      {(showAddModel || showTransferModel || showAddUserModel) && (
+      {(showAddModel ||
+        showTransferModel ||
+        showAddUserModel ||
+        showAddProgramModel ||
+        showAddSubProgramModel) && (
         <div className=" w-[100vw] h-screen fixed top-0 center left-0 z-100 bg-[#083f5a]/50">
           <div className=" bg-white w-[95%] md:w-[70%] lg:w-[35%] py-12 px-8 md:px-16 rounded-[10px] shadow-lg center flex-col space-y-10 ">
             <div className="w-full center justify-end">
@@ -31,7 +44,10 @@ function ModelBackup(props) {
                     dispatch(setModelTransferIsVisible(false));
                   } else if (showAddUserModel) {
                     dispatch(setModelAddUserIsVisible(false));
-                    console.log(showAddUserModel);
+                  } else if (showAddProgramModel) {
+                    dispatch(setModelAddProgramIsVisible(false));
+                  } else if (showAddSubProgramModel) {
+                    dispatch(setModelAddSubProgramIsVisible(false));
                   }
                 }}
               />

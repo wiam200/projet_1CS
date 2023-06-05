@@ -1,14 +1,30 @@
 import Programmes from "@/components/Admin/admin-programmes/Programmes";
-import { setChaptersAmounts } from "@/store/reducers/budgetReducer";
+import { setProgramsList } from "@/store/reducers/progamsReducer";
 import axios from "axios";
-import React from "react";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-function Programs(props) {
+const tokenUser = Cookies.get("token");
+function Programs() {
   const dispatch = useDispatch();
-  const { chaptersAmounts } = props;
 
-  dispatch(setChaptersAmounts(chaptersAmounts));
+  useEffect(() => {
+    const heyHandler = async () => {
+      const response2 = await axios.get(
+        "http://192.168.129.1/QuantumLeap/public/api/programmes",
+        {
+          headers: {
+            Authorization: `Bearer ${tokenUser}`,
+          },
+        }
+      );
+
+      const programms = await response2.data.data;
+      dispatch(setProgramsList(programms));
+    };
+    heyHandler();
+  }, [dispatch]);
   return (
     <div>
       <Programmes />
@@ -19,27 +35,28 @@ function Programs(props) {
 export default Programs;
 
 export async function getServerSideProps(context) {
-  const { req } = context;
-  const token = req.cookies.token; // Get the token from the request cookies
-  const isAuthenticated = !!token;
+  // const { req } = context;
+  // const token = req.cookies.token; // Get the token from the request cookies
+  // const isAuthenticated = !!token;
 
-  if (!isAuthenticated) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  // if (!isAuthenticated) {
+  //   return {
+  //     redirect: {
+  //       destination: "/",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
+  // const response = await axios.get(
+  //   "https://projet-1cs-5133b-default-rtdb.firebaseio.com/programmes.json"
+  // );
 
-  const response = await axios.get(
-    "https://projet-1cs-5133b-default-rtdb.firebaseio.com/budget.json"
-  );
-  //programmes
-  const { chaptersAmounts } = response.data;
+  // const programsList = response.data;
+  // if (!response.ok) console.log(response.data);
+
   return {
     props: {
-      chaptersAmounts,
+      // programsList,
     },
   };
 }

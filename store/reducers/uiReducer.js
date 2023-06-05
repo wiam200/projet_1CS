@@ -5,6 +5,7 @@ const initialState = {
   modelTransferIsVisible: false,
   modelAddUserIsVisible: false,
   modelAddProgramIsVisible: false,
+  modelAddSubProgramIsVisible: false,
 };
 
 const uiSlice = createSlice({
@@ -23,12 +24,17 @@ const uiSlice = createSlice({
     setModelAddProgramIsVisible: (state, action) => {
       state.modelAddProgramIsVisible = action.payload;
     },
+    setModelAddSubProgramIsVisible: (state, action) => {
+      state.modelAddSubProgramIsVisible = action.payload;
+    },
   },
 });
 export const {
   setModelAddIsVisible,
   setModelTransferIsVisible,
   setModelAddUserIsVisible,
+  setModelAddProgramIsVisible,
+  setModelAddSubProgramIsVisible,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

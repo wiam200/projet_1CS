@@ -1,28 +1,48 @@
 import ActionButton from "@/components/UI/ActionButton";
+import ActionLoading from "@/components/UI/ActionLoading";
 import BlankButton from "@/components/UI/BlankButton";
 import Input from "@/components/UI/Input";
 import ModelBackup from "@/components/UI/ModelBackup";
+import { setModelAddProgramIsVisible } from "@/store/reducers/uiReducer";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function AddAmount() {
+function AddProgram() {
+  const dispatch = useDispatch();
+  const [programTitle, setProgramTitle] = useState("");
   const [error, setError] = useState("");
 
-  const addProgramHandler = (event) => {
+  const addProgramHandler = async (event) => {
     event.preventDefault();
     if (programTitle && programTitle.trim().length > 5) {
-      setError("");
-      const response = axios.post("", programTitle);
+      try {
+        const response = await axios.post(
+          "http://192.168.129.1/QuantumLeap/public/api/programmes/create",
+          { titre: programTitle },
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+        dispatch(setModelAddProgramIsVisible(false));
+        toast.success("Program added successfully!");
+      } catch (error) {
+        setError(error.response.data.errors.titre);
+      }
     } else {
-      // dynamique :amount shouldn't be greater then the black box
-      setError("Enter a valid title.");
+      setError("Something went wrong.");
     }
   };
 
-  //   const cancelAddProgramHandler = () => {
-  //     setError("");
-  //     dispatch(cancelAddOperation());
-  //   };
+  const cancelAddProgramHandler = () => {
+    setError("");
+    dispatch(setModelAddProgramIsVisible(false));
+  };
 
   return (
     <ModelBackup>
@@ -52,4 +72,4 @@ function AddAmount() {
   );
 }
 
-export default AddAmount;
+export default AddProgram;
