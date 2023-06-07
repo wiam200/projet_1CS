@@ -1,11 +1,11 @@
 import OverView from "@/components/Admin/admin-ov/OverView";
 import React from "react";
 
-function index(props) {
+function Index() {
   return <OverView />;
 }
 
-export default index;
+export default Index;
 
 export async function getServerSideProps(context) {
   const { req } = context;

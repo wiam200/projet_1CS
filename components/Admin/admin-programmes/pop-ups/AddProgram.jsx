@@ -21,7 +21,7 @@ function AddProgram() {
     if (programTitle && programTitle.trim().length > 5) {
       try {
         const response = await axios.post(
-          "http://192.168.129.1/QuantumLeap/public/api/programmes/create",
+          "http://esi-social.azurewebsites.net/api/programmes/create",
           { titre: programTitle },
           {
             headers: {

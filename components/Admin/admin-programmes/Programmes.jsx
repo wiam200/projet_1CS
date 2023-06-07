@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AddProgram from "./pop-ups/AddProgram";
 import AddSubProgram from "./pop-ups/AddSubProgram";
 import { setModelAddSubProgramIsVisible } from "@/store/reducers/uiReducer";
-import { setProgramId } from "@/store/reducers/progamsReducer";
-import { DeleteFilled, EditOutlined } from "@ant-design/icons";
+import { setProgramId, setProgramsList } from "@/store/reducers/progamsReducer";
+import { DeleteFilled } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import axios from "axios";
 const { Panel } = Collapse;
@@ -30,7 +30,7 @@ const genExtraSubProgram = (id) => (
       event.stopPropagation();
       try {
         const response = await axios.post(
-          "http://192.168.129.1/QuantumLeap/public/api/oeuvres/delete/" + id,
+          "http://esi-social.azurewebsites.net/api/oeuvres/delete/" + id,
           {},
           {
             headers: {
@@ -53,7 +53,7 @@ const genExtraProgram = (id) => (
       event.stopPropagation();
       try {
         const response = await axios.post(
-          "http://192.168.129.1/QuantumLeap/public/api/programmes/delete/" + id,
+          "http://esi-social.azurewebsites.net/api/programmes/delete/" + id,
           {},
           {
             headers: {
@@ -77,7 +77,26 @@ const Programmes = () => {
   );
 
   const programsList = useSelector((state) => state.programs.programsList);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://esi-social.azurewebsites.net/api/programmes",
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+        const programms = await response.data.data;
+        dispatch(setProgramsList(programms));
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    fetchData();
+  }, [dispatch]);
   const onChange = (key) => {
     console.log(key);
   };

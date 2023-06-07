@@ -25,9 +25,12 @@ const programSlice = createSlice({
 
 export const addProgram = (title) => async (dispatch) => {
   try {
-    const response = await axios.post(`/api/programs/add`, {
-      title,
-    });
+    const response = await axios.post(
+      `http://esi-social.azurewebsites.net/api/programmes/create`,
+      {
+        title,
+      }
+    );
     dispatch(setAddProgramError(null));
     // return old + new program
     dispatch(setProgramsList(response.data));

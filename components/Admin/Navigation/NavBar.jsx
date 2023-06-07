@@ -23,7 +23,7 @@ function NavBar() {
           </Link>
         </li>
         <li>
-          <Link href="/requests" className="relative">
+          <Link href="/dashboard/demandes" className="relative">
             <HiInboxStack className=" w-[25px] h-[25px]" />
             <div className="absolute  w-4 h-4 center text-xs  bg-red-500 text-white/90 rounded-full top-2 -right-8 ">
               <span>3</span>

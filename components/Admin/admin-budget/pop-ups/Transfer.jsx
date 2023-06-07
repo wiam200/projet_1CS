@@ -1,5 +1,7 @@
 import ActionButton from "@/components/UI/ActionButton";
 import BlankButton from "@/components/UI/BlankButton";
+import DropDownInput from "@/components/UI/DropDown";
+import DropDownDestination from "@/components/UI/DropDownDestination";
 import Input from "@/components/UI/Input";
 import ModelBackup from "@/components/UI/ModelBackup";
 import {
@@ -7,34 +9,27 @@ import {
   transferAmount,
 } from "@/store/reducers/budgetReducer";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Transfer() {
-  const [source, setSource] = useState("");
-  const [destination, setDestination] = useState("");
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
-
+  const source = useSelector((state) => state.budget.selectedProgram);
+  const destination = useSelector(
+    (state) => state.budget.selectedProgramDestination
+  );
   const dispatch = useDispatch();
 
   const transferAmountHandler = (event) => {
     event.preventDefault();
 
-    if (
-      source.length > 0 &&
-      destination.length > 0 &&
-      parseFloat(amount) > 1000 &&
-      parseFloat(amount) < 50000
-    ) {
-      dispatch(transferAmount({ source, destination, amount }));
-    } else {
-      setError("Please enter a valid amount");
-    }
+    dispatch(transferAmount({ source, destination, amount }));
   };
 
   const cancelHandler = () => {
     dispatch(cancelTransferOperation());
   };
+
   return (
     <ModelBackup>
       <form
@@ -42,20 +37,8 @@ function Transfer() {
         onSubmit={transferAmountHandler}
       >
         <div className=" space-y-5">
-          <Input
-            type="text"
-            id="text"
-            label="Source"
-            onChange={(event) => setSource(event.target.value)}
-            value={source}
-          />
-          <Input
-            type="text"
-            id="text2"
-            label="Destination"
-            onChange={(event) => setDestination(event.target.value)}
-            value={destination}
-          />
+          <DropDownInput />
+          <DropDownDestination />
 
           <Input
             type="number"

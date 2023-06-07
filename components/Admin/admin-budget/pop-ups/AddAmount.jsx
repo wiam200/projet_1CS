@@ -1,30 +1,31 @@
 import ActionButton from "@/components/UI/ActionButton";
 import BlankButton from "@/components/UI/BlankButton";
+import DropDownInput from "@/components/UI/DropDown";
 import Input from "@/components/UI/Input";
 import ModelBackup from "@/components/UI/ModelBackup";
 import {
   addChapterAmount,
   cancelAddOperation,
+  setSelectedProgram,
 } from "@/store/reducers/budgetReducer";
 
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddAmount() {
-  const [chapterTitle, setChapterTitle] = useState("");
   const [chapterAmount, setChapterAmount] = useState("");
   const [error, setError] = useState("");
-
+  const selectedProgram = useSelector((state) => state.budget.selectedProgram);
   const dispatch = useDispatch();
-
   const addHandler = (event) => {
     event.preventDefault();
     if (
-      chapterTitle &&
+      selectedProgram &&
       parseFloat(chapterAmount) < 50000000 &&
       parseFloat(chapterAmount) > 1000
     ) {
-      dispatch(addChapterAmount({ chapterTitle, chapterAmount }));
+      dispatch(addChapterAmount({ selectedProgram, chapterAmount }));
+      // dispatch(setSelectedProgram(null));
     } else {
       // dynamique :amount shouldn't be greater then the black box
       setError("Enter a valid title and amount.");
@@ -33,21 +34,13 @@ function AddAmount() {
 
   const cancelAddHandler = () => {
     setError("");
-    dispatch(cancelAddOperation());
   };
 
   return (
     <ModelBackup>
       <form className=" w-full space-y-10 flex-col z-40" onSubmit={addHandler}>
         <div className=" space-y-5">
-          <Input
-            type="text"
-            id="text"
-            label="Title"
-            onChange={(event) => setChapterTitle(event.target.value)}
-            value={chapterTitle}
-          />
-
+          <DropDownInput />
           <Input
             type="number"
             id="number"

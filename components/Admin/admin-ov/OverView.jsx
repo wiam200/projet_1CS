@@ -4,6 +4,7 @@ import BudgetAnalyticts from "./BudgetAnalyticts";
 import GeneralAnalytics from "./GeneralAnalytics";
 import Charts from "./Charts";
 import Title from "@/components/UI/Title";
+import { useSelector } from "react-redux";
 
 const DUMMY_GENERAL = [
   {
@@ -24,6 +25,11 @@ const DUMMY_GENERAL = [
 ];
 
 function OverView() {
+  const blackBox = useSelector((state) => state.budget.blackBox);
+  const init = useSelector((state) => state.budget.initialBudget);
+  const expenses = useSelector((state) => state.budget.expensesBudget);
+  const curr = useSelector((state) => state.budget.currentBudget);
+  console.log(blackBox, init, expenses, curr);
   return (
     <section className=" space-y-12 pt-20 pb-8">
       <Header />

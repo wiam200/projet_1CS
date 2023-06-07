@@ -51,8 +51,7 @@ export const login = ({ userEmail, password }) => {
 
     try {
       const response = await axios.post(
-        // "https://projet-1cs-5133b-default-rtdb.firebaseio.com/user.json",
-        "http://192.168.129.1/QuantumLeap/public/api/login",
+        "http://esi-social.azurewebsites.net/api/login",
         {
           userEmail,
           password,
@@ -83,7 +82,7 @@ export const login = ({ userEmail, password }) => {
 
 export const logOut = () => async (dispatch) => {
   const response = await axios.post(
-    "http://192.168.129.1/QuantumLeap/public/api/logout",
+    "http://esi-social.azurewebsites.net/api/logout",
     {},
     {
       headers: {
@@ -102,10 +101,13 @@ export const resetPassword = (email) => async (dispatch) => {
   dispatch(setPasswordResetError(null));
 
   try {
-    const response = await axios.post("/api/reset-password", {
-      newPassword,
-      confirmPassword,
-    });
+    const response = await axios.post(
+      "http://esi-social.azurewebsites.net/api/reset-password",
+      {
+        newPassword,
+        confirmPassword,
+      }
+    );
 
     const data = await response.data;
     if (data.ok) {
@@ -128,7 +130,7 @@ export const changePassword =
     dispatch(setLoading(true));
     try {
       const response = await axios.post(
-        "http://192.168.129.1/QuantumLeap/public/api/users/changepassword",
+        "http://esi-social.azurewebsites.net/api/users/changepassword",
 
         {
           newPassword,

@@ -27,7 +27,7 @@ const usersSlice = createSlice({
 export const createUser = (user) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://192.168.129.1/QuantumLeap/public/api/users",
+      "http://esi-social.azurewebsites.net/api/users",
       user,
       {
         headers: {
@@ -59,7 +59,7 @@ export const createUser = (user) => async (dispatch) => {
 export const deleteUser = (id) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://192.168.129.1/QuantumLeap/public/api/users/delete/" + id,
+      "http://esi-social.azurewebsites.net/api/users/delete/" + id,
       {},
       {
         headers: {

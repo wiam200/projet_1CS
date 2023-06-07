@@ -28,7 +28,7 @@ export async function getServerSideProps(context) {
     };
   }
   const response = await axios.get(
-    "http://192.168.129.1/QuantumLeap/public/api/users",
+    "http://esi-social.azurewebsites.net/api/users",
     {
       headers: {
         Authorization: `Bearer ${token}`,

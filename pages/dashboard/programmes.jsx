@@ -9,22 +9,6 @@ const tokenUser = Cookies.get("token");
 function Programs() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const heyHandler = async () => {
-      const response2 = await axios.get(
-        "http://192.168.129.1/QuantumLeap/public/api/programmes",
-        {
-          headers: {
-            Authorization: `Bearer ${tokenUser}`,
-          },
-        }
-      );
-
-      const programms = await response2.data.data;
-      dispatch(setProgramsList(programms));
-    };
-    heyHandler();
-  }, [dispatch]);
   return (
     <div>
       <Programmes />
