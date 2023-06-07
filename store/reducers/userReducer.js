@@ -59,6 +59,7 @@ export const login = ({ userEmail, password }) => {
       );
 
       const { token, role, userName, email } = response.data.data;
+
       // verifie
       dispatch(setToken(token));
       dispatch(setUserEmail(email));
@@ -69,6 +70,7 @@ export const login = ({ userEmail, password }) => {
       // const { email,password}=res.data
 
       Cookies.set("token", token, { expires: 1, path: "/" });
+      Cookies.set("role", role, { expires: 1, path: "/" });
     } catch (error) {
       dispatch(setToken(null));
       dispatch(setError(error));

@@ -1,3 +1,4 @@
+import Layout from "@/components/Admin/Layout/Layout";
 import Users from "@/components/Admin/admin-users/Users";
 import { setUsersList } from "@/store/reducers/usersReducer";
 import axios from "axios";
@@ -9,7 +10,11 @@ function User(props) {
   const dispatch = useDispatch();
 
   dispatch(setUsersList(props.usersList));
-  return <Users />;
+  return (
+    <Layout>
+      <Users />
+    </Layout>
+  );
 }
 
 export default User;

@@ -4,14 +4,13 @@ import store from "../store/store";
 import Layout from "@/components/Admin/Layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       {" "}
-      <Layout>
-        <Component {...pageProps} />
-        <ToastContainer />
-      </Layout>
+      <Component {...pageProps} />
+      <ToastContainer />
     </Provider>
   );
 }

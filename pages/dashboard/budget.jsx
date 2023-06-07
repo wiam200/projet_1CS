@@ -10,6 +10,7 @@ import {
   setInitialBudget,
 } from "@/store/reducers/budgetReducer";
 import axios from "axios";
+import Layout from "@/components/Admin/Layout/Layout";
 function Budgete(props) {
   const dispatch = useDispatch();
 
@@ -27,7 +28,11 @@ function Budgete(props) {
   dispatch(setBlackBox(blackBox));
   dispatch(setChaptersAmounts(chaptersAmounts));
 
-  return <Budget />;
+  return (
+    <Layout>
+      <Budget />
+    </Layout>
+  );
 }
 
 export default Budgete;
@@ -35,16 +40,16 @@ export default Budgete;
 export async function getServerSideProps(context) {
   const { req } = context;
   const token = req.cookies.token; // Get the token from the request cookies
-  // const isAuthenticated = !!token;
+  const isAuthenticated = !!token;
 
-  // if (!isAuthenticated) {
-  //   return {
-  //     redirect: {
-  //       destination: "/",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   const response = await axios.get(
     "http://esi-social.azurewebsites.net/api/budget",
     {

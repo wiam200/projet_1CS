@@ -1,8 +1,13 @@
+import Layout from "@/components/Admin/Layout/Layout";
 import OverView from "@/components/Admin/admin-ov/OverView";
 import React from "react";
 
 function Index() {
-  return <OverView />;
+  return (
+    <Layout>
+      <OverView />
+    </Layout>
+  );
 }
 
 export default Index;
