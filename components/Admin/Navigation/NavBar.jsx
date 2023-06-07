@@ -7,7 +7,7 @@ import {
   HiMegaphone,
 } from "react-icons/hi2";
 import { AiFillPieChart } from "react-icons/ai";
-import { FaUsersCog } from "react-icons/fa";
+import { FaAmazonPay, FaUsersCog } from "react-icons/fa";
 function NavBar() {
   return (
     <nav className=" w-full md:w-[6%] h-[80px] md:h-[97vh] rounded-[10px] shadow-md bg-[var(--primary-color)] text-white/90 mt-[10px] lg:fixed ">
@@ -44,8 +44,13 @@ function NavBar() {
           </Link>
         </li>
         <li>
-          <Link href="/announcements">
+          <Link href="/dashboard/announcements">
             <HiMegaphone className=" w-[25px] h-[25px]" />
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/payment">
+            <FaAmazonPay className=" w-[25px] h-[25px]" />
           </Link>
         </li>
       </ul>

@@ -12,7 +12,7 @@ function Input(props) {
         max="5,000,000"
         pattern={props.patter}
         onChange={props.onChange}
-        className="block p-6  w-full text-base text-gray-900 bg-white h-full rounded-[10px] border-1 border-gray-300 appearance-none text-[#023047]/90 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        className="block p-6  w-full text-base text-gray-900 bg-white  h-full rounded-[10px] border-1 border-gray-300 appearance-none text-[#023047]/90 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder=" "
       />
       <label

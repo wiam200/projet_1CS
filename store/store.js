@@ -4,6 +4,7 @@ import uiReducer from "./reducers/uiReducer";
 import budgetReducer from "./reducers/budgetReducer";
 import usersReducer from "./reducers/usersReducer";
 import progamsReducer from "./reducers/progamsReducer";
+import paymentReducer from "./reducers/paymentReducer";
 const store = configureStore({
   reducer: {
     user: userReducer,
@@ -11,6 +12,7 @@ const store = configureStore({
     budget: budgetReducer,
     users: usersReducer,
     programs: progamsReducer,
+    payment: paymentReducer,
   },
 });
 
