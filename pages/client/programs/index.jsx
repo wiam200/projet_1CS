@@ -1,4 +1,4 @@
-import { getChapters } from "../api/programs";
+import { getChapters } from "@/api/programs";
 import Nav from "@/components/Client/landing-components/Nav";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
@@ -9,22 +9,22 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 
-const ICONS = [<UserOutlined />, <UploadOutlined />, <MenuUnfoldOutlined />]
+const ICONS = [<UserOutlined />, <UploadOutlined />, <MenuUnfoldOutlined />];
 
-export const getStaticProps = async () => {
-  let programs = await getChapters();
+export const getServerSideProps = async ({ req }) => {
+  let programs = await getChapters(req.cookies.token);
   programs = programs.map((program, index) => {
     return {
-      key: program.title,
-      children: program.chapters.map(chapter => {
+      key: program.titre,
+      children: program.oeuvres.map((chapter) => {
         return {
-          label: chapter.title,
-          key: chapter.id
-        }
+          label: chapter.titre,
+          key: chapter.id,
+        };
       }),
-      label: program.title,
+      label: program.titre,
     };
   });
   return {
@@ -56,9 +56,15 @@ const Programs = ({ programs }) => {
             defaultSelectedKeys={["1"]}
             mode="inline"
             items={programs.map((program, index) => {
-              return {...program, icon: ICONS[index], children: program.children.map(child => {
-                return {label: <a href={`/programs/${child.key}`}>{child.label}</a>}
-              })}
+              return {
+                ...program,
+                icon: ICONS[index],
+                children: program.children.map((child) => {
+                  return {
+                    label: <a href={`/client/programs/${child.key}`}>{child.label}</a>,
+                  };
+                }),
+              };
             })}
           />
         </Sider>

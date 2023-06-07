@@ -1,4 +1,5 @@
-import { getChapter,getChapters } from "../api/programs";
+import { getChapter, getChapters } from "@/api/programs";
+import { createDemande } from "@/api/demandes";
 import Nav from "@/components/Client/landing-components/Nav";
 import {
   InboxOutlined,
@@ -14,22 +15,22 @@ const { Dragger } = Upload;
 
 const ICONS = [<UserOutlined />, <UploadOutlined />, <MenuUnfoldOutlined />];
 
-export const getServerSideProps = async ({ params }) => {
-  let programs = await getChapters();
-  programs = programs.map((program) => {
+export const getServerSideProps = async ({ params, req }) => {
+  let prePrograms = await getChapters(req.cookies.token);
+  let programs = prePrograms.map((program, index) => {
     return {
-      key: program.title,
-      children: program.chapters.map((chapter) => {
+      key: program.titre,
+      children: program.oeuvres.map((chapter) => {
         return {
-          label: chapter.title,
+          label: chapter.titre,
           key: chapter.id,
         };
       }),
-      label: program.title,
+      label: program.titre,
     };
   });
 
-  let chapter = await getChapter(params.slug);
+  let chapter = await getChapter(prePrograms, params.slug);
   return {
     props: {
       programs: programs,
@@ -92,7 +93,18 @@ const props = {
 const Details = ({ programs, chapter, slug }) => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
-    console.log("Received values of form:", values);
+    console.log(values);
+    let formData = new FormData();
+    formData.append("ouevreId", slug);
+    formData.append("files", values.docs.fileList);
+    createDemande(formData).then(
+      (res) => {
+        message.success(`Demande a ete cree.`);
+      },
+      (err) => {
+        message.error(`Erreur durant la creation de la demande.`);
+      }
+    );
   };
   const [collapsed, setCollapsed] = useState(false);
   return (
@@ -141,7 +153,7 @@ const Details = ({ programs, chapter, slug }) => {
             <h1 className="text-2xl">{chapter.program}</h1>
             <p>
               <span className="text-2xl font-medium"> Chapter:</span>
-              {chapter.title}
+              {chapter.titre}
             </p>
             <p>
               <span className="font-medium text-2xl"> Description:</span>{" "}
@@ -154,13 +166,16 @@ const Details = ({ programs, chapter, slug }) => {
               <Form
                 name="dynamic_form_item"
                 {...formItemLayoutWithOutLabel}
-                onFinish={onFinish} 
+                onFinish={onFinish}
                 form={form}
                 style={{
                   maxWidth: 600,
                 }}
               >
-                <Form.Item name="docs" rules={[{ required: true, message: "Files are required" }]}>
+                <Form.Item
+                  name="docs"
+                  rules={[{ required: true, message: "Files are required" }]}
+                >
                   <Dragger {...props}>
                     <p className="ant-upload-drag-icon">
                       <InboxOutlined />
@@ -175,7 +190,11 @@ const Details = ({ programs, chapter, slug }) => {
                   </Dragger>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="bg-blue-500"
+                  >
                     Submit
                   </Button>
                 </Form.Item>

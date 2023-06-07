@@ -4,14 +4,14 @@ import Link from "next/link";
 import {  useState } from "react";
 
 const navigation = [
-  { name: "Accueil", href: "/programmes" },
-  { name: "programs", href: "/programs" },
-  { name: "My demands", href: "/demands" },
+  { name: "Accueil", href: "client" },
+  { name: "programs", href: "client/programs" },
+  { name: "My demands", href: "client/demands" },
   { name: "Contact", href: null },
 ];
 const UserList = ["U"];
 const ColorList = ["#00a2ae"];
-  
+
 export default function Nav() {
 
   const data = [
