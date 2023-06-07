@@ -27,7 +27,7 @@ const usersSlice = createSlice({
 export const createUser = (user) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://esi-social.azurewebsites.net/api/users",
+      "http://esi-social.azurewebsites.net/api/users/create",
       user,
       {
         headers: {
