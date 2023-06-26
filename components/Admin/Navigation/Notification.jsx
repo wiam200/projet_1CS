@@ -1,27 +1,20 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { RiNotification3Fill } from "react-icons/ri";
 import { IoArrowUndoSharp } from "react-icons/io5";
+import { getNotifications } from "@/api/notifications";
 
-const DUMMYNOT = [
-  {
-    id: "n1",
-    userName: "ayoub bg",
-    body: "hey there, im facing some login issues ,i cannot get the email verification ",
-  },
-  {
-    id: "n2",
-    userName: "ayoub bg",
-    body: "hey there, im facing some login issues ,i cannot get the email verification ",
-  },
-  {
-    id: "n2",
-    userName: "ayoub bg",
-    body: "hey there, im facing some login issues ,i cannot get the email verification ",
-  },
-];
 function Notification() {
+  const [notifications, setNotifications] = useState([false]);
   const [notificationState, setNotificationState] = useState(false);
   const [consultedNotification, setConsultedNotification] = useState(false);
+
+  useEffect(() => {
+    // getNotifications().then((res) => {
+    //   console.log(res);
+    //   setNotifications(res);
+    // });
+  }, []);
+
   return (
     <div className="relative">
       <button
@@ -48,7 +41,7 @@ function Notification() {
       {notificationState && (
         <div className=" absolute top-8 z-20 overflow-scroll -right-10 lg:right-0 bg-gray-50 border border-gray-100 w-[350px] lg:w-[500px] h-[340px]  rounded-lg shadow-lg  ">
           <ul>
-            {DUMMYNOT.map((not) => {
+            {notifications.map((not) => {
               return (
                 <li
                   key={not.id}
@@ -57,13 +50,13 @@ function Notification() {
                   <div>
                     <h5 className=" text-base font-semibold text-[#023047]/80 flex gap-2 items-center">
                       <IoArrowUndoSharp className=" rotate-180 h-5 w-5" />
-                      {not.userName}
+                      {not.title}
                     </h5>
                     <h6 className=" text-xs text-gray-500 ml-6">
-                      w.mehal@esi-sba.dz
+                      {new Date(not.date).toLocaleDateString()}
                     </h6>
                   </div>
-                  <p className=" text-sm text-gray-500 ml-6">{not.body}</p>
+                  <p className=" text-sm text-gray-500 ml-6">{not.message}</p>
                 </li>
               );
             })}

@@ -2,6 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export function getChapters(token) {
+  token = token ? token : Cookies.get("token");
   return new Promise((resolve, reject) => {
     axios
       .get("http://esi-social.azurewebsites.net/api/programmes", {
@@ -10,6 +11,7 @@ export function getChapters(token) {
         },
       })
       .then(({ data }) => {
+        console.log(data.data);
         resolve(data.data);
       })
       .catch((err) => reject(err));
@@ -22,11 +24,12 @@ export function getChapter(programs, id) {
     programs.map((program) => {
       let chapter = program.oeuvres.filter((item) => item.id == id);
       chapter = chapter ? chapter[0] : null;
-      if (chapter) result = {
-        programId: program.id,
-        program: program.titre,
-        ...chapter
-      };
+      if (chapter)
+        result = {
+          programId: program.id,
+          program: program.titre,
+          ...chapter,
+        };
     });
     resolve(result);
     // fetch("https://cat-fact.herokuapp.com/facts/" + id, {

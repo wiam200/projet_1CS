@@ -61,6 +61,7 @@ export const addChapterAmount =
           },
         }
       );
+      console.log({ selectedProgram, chapterAmount });
       dispatch(setModelAddIsVisible(false));
     } catch (error) {
       //dispatch(setBudgetError(error));
@@ -86,8 +87,13 @@ export const transferAmount =
   async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://esi-social.azurewebsites.net/transaction.json",
-        { source, destination, amount }
+        "http://esi-social.azurewebsites.net/api/transferer",
+        { source, destination, amount },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
       dispatch(setModelTransferIsVisible(false));
     } catch (error) {

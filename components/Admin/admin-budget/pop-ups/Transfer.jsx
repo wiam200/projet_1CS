@@ -38,7 +38,7 @@ function Transfer() {
       >
         <div className=" space-y-5">
           <DropDownInput />
-          <DropDownDestination />
+          <DropDownDestination source={source} />
 
           <Input
             type="number"

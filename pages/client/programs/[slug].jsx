@@ -93,11 +93,13 @@ const props = {
 const Details = ({ programs, chapter, slug }) => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
-    console.log(values);
     let formData = new FormData();
-    formData.append("ouevreId", slug);
-    formData.append("files", values.docs.fileList);
-    createDemande(formData).then(
+
+    values.docs.fileList.map((item) => {
+      formData.append("files[]", item.originFileObj);
+    });
+
+    createDemande(slug, formData).then(
       (res) => {
         message.success(`Demande a ete cree.`);
       },
@@ -134,7 +136,7 @@ const Details = ({ programs, chapter, slug }) => {
                     ...child,
                     label: (
                       <a
-                        href={`/programs/${child.key}`}
+                        href={`/client/programs/${child.key}`}
                         className={
                           child.key == slug ? "!text-sky-500" : "text-white"
                         }

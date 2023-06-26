@@ -10,12 +10,10 @@ import {
 } from "@/store/reducers/userReducer";
 import Button from "@/components/UI/Button";
 import { useRouter } from "next/router";
+import { message } from "antd";
 
 function Profile() {
   const changePasswordError = useSelector((state) => state.user.error);
-  const changePasswordSuccess = useSelector(
-    (state) => state.user.passwordResetSuccess
-  );
 
   const dispatch = useDispatch();
   const [oldPassword, setOldPassword] = useState("");
@@ -32,14 +30,18 @@ function Profile() {
       newPassword &&
       confirmPassword &&
       newPassword.trim().length >= 6 &&
-      confirmPassword.trim().length >= 6 &&
-      newPassword === confirmPassword
+      confirmPassword.trim().length >= 6
     ) {
-      dispatch(changePassword({ newPassword }));
-      dispatch(setPasswordResetSuccess(true));
-      router.replace("/dashboard");
+      if (newPassword != confirmPassword) {
+        message.error(`Passwords do not match.`);
+      } else {
+        dispatch(changePassword({ newPassword }));
+        message.success(`Passwords changed successfully.`);
+
+        router.replace("/dashboard");
+      }
     } else {
-      dispatch(setError("Something went wrong ."));
+      message.error(`Something went wrong`);
     }
   };
 
@@ -75,7 +77,6 @@ function Profile() {
               id="oldpassword"
               label="Old password"
               onChange={(event) => setOldPassword(event.target.value)}
-              value={oldPassword}
             />
             <Input
               type="password"
@@ -95,12 +96,6 @@ function Profile() {
             <div className=" text-red-600 text-center">
               {changePasswordError}
             </div>
-            {changePasswordSuccess && (
-              <div className=" text-green-700 text-center">
-                {" "}
-                Password changed successfully.
-              </div>
-            )}
           </form>
         </div>
       </div>

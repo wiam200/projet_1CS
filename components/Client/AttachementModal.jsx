@@ -1,6 +1,7 @@
 import { Button, Modal } from "antd";
 import { useState } from "react";
-export default function PdfPreview() {
+import { getAttachementLink } from "@/api/demandes";
+export default function PdfPreview({ name }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [PDF, setPDF] = useState({
@@ -9,38 +10,20 @@ export default function PdfPreview() {
   });
 
   // The integration request
-  const getPDF = (id) => {
+  const getPDF = () => {
     return new Promise((resolve, reject) => {
-      /*
-      fetch(`https://backend.com/pdf/${id}`, {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // data will contain link and title
-          resolve({
-            link: data.link,
-            title: data.title,
-          });
-        })
-        .catch((err) => {
-          reject(err);
-        });
-        */
-
-      // TO REMOVE: Temporary to test only
-      setTimeout(() => {
+      getAttachementLink(name).then((res) => {
         resolve({
-          link: "https://uird.netlify.app/Resume.pdf",
-          title: "Here is the PDF Title",
+          link: res,
+          title: name.replace(".pdf", ""),
         });
-      }, 2000);
+      });
     });
   };
 
   const showModal = async () => {
     setLoading(true);
-    await getPDF(1).then((res) => {
+    await getPDF().then((res) => {
       setPDF(res);
       setIsModalOpen(true);
     });
@@ -57,9 +40,13 @@ export default function PdfPreview() {
 
   return (
     <>
-      <Button type="primary" onClick={showModal} loading={loading}>
-        FILE NAME.PDF
-        
+      <Button
+        type="primary"
+        className="bg-blue-500"
+        onClick={showModal}
+        loading={loading}
+      >
+        Preview
       </Button>
       <Modal
         title={PDF.title}

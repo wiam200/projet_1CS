@@ -25,7 +25,7 @@ function NavBar() {
         <li>
           <Link href="/dashboard/demandes" className="relative">
             <HiInboxStack className=" w-[25px] h-[25px]" />
-            <div className="absolute  w-4 h-4 center text-xs  bg-red-500 text-white/90 rounded-full top-2 -right-8 ">
+            <div className="absolute  w-4 h-4 center text-xs  bg-red-500 text-white/90 rounded-full  top-0 -right-3">
               <span>3</span>
             </div>
           </Link>
@@ -38,7 +38,7 @@ function NavBar() {
         <li>
           <Link href="/dashboard/users" className="relative">
             <FaUsersCog className=" w-[25px] h-[25px]" />
-            <div className="absolute  w-4 h-4 center text-xs  bg-red-500 text-white/90 rounded-full top-3 -right-9 ">
+            <div className="absolute  w-4 h-4 center text-xs  bg-red-500 text-white/90 rounded-full top-0 -right-3 ">
               <span>7</span>
             </div>
           </Link>

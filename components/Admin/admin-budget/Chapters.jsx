@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 function Chapters() {
   const chapters = useSelector((state) => state.budget.chaptersAmounts);
-  console.log(chapters);
   const items = [];
 
   for (const key in chapters) {
@@ -23,7 +22,7 @@ function Chapters() {
                 {item.titre}{" "}
               </h2>
               <h5 className=" text-[20px] text-[#023047]/60 font-semibold">
-                {item.montant}
+                {item.montant ?? 0} da
               </h5>
             </li>
           );

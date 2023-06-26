@@ -1,0 +1,1 @@
+export const API_URL = 'http://esi-social.azurewebsites.net/api'

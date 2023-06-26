@@ -1,17 +1,22 @@
 import ActionButton from "@/components/UI/ActionButton";
 import BlankButton from "@/components/UI/BlankButton";
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Modal, Space, Table } from "antd";
+import { Button, Input, Modal, Space, Table, message } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Fragment, useRef, useState, useEffect } from "react";
 import Highlighter from "react-highlight-words";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getDemandes, changeStatusDemandes } from "@/api/demandes";
+import {
+  getDemandesByStatus,
+  changeStatusDemandes,
+  payDemande,
+} from "@/api/demandes";
 import PdfPreview from "@/components/Client/AttachementModal";
+import PaymentMethodDropDown from "@/components/UI/PaymentMethodDropDown"
 
-const Demandes = () => {
+const Paiements = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null); // New state to track the selected request
@@ -19,7 +24,7 @@ const Demandes = () => {
   const searchInput = useRef(null);
 
   useEffect(() => {
-    getDemandes().then((res) => {
+    getDemandesByStatus().then((res) => {
       setData(res);
     });
   }, []);
@@ -28,50 +33,25 @@ const Demandes = () => {
     setSelectedRequest(record);
   };
 
-  const handleAccept = async () => {
-    let newData = [...data];
-    await sendRequest(
-      selectedRequest.id,
-      "approved",
-      `Dear ${selectedRequest.name}, The request you sent on ${selectedRequest.date} has been accepted.`
-    );
-    // newData = newData.map((item) => {
-    //   if (item.id == selectedRequest.id)
-    //     return {
-    //       ...item,
-    //       status: "approved",
-    //     };
-    // });
-    // setData(newData);
-  };
-
-  const handleRefuse = () => {
-    console.log(
-      `Dear ${selectedRequest.name}, The request you sent on ${selectedRequest.date} has been refused,recheck your documents.`
-    );
-    sendRequest(
-      selectedRequest.id,
-      "refused",
-      `Dear ${selectedRequest.name}, The request you sent on ${selectedRequest.date} has been refused,recheck your documents.`
-    );
-  };
-
-  const sendRequest = async (requestId, status, message) => {
-    await changeStatusDemandes(requestId, status)
-      .then((response) => {
-        toast.success("In progress ...");
-        setSelectedRequest(null);
-        console.log("the request has been sent .");
-      })
-      .catch((error) => {
-        setSelectedRequest(null);
-        console.log("something went wrong");
-      });
-  };
-
   const renderDetailsModal = () => {
-    if (!selectedRequest) return null;
+    const [amount, setAmount] = useState(0);
+    const [method, setMethod] = useState("transfert");
+    const [isPaying, setIsPaying] = useState(false);
 
+    const handleAccept = async () => {
+      setIsPaying(true);
+      await payDemande(selectedRequest.id, amount, method).then(
+        (res) => {
+          setSelectedRequest(null);
+        },
+        (err) => {
+          message.error("An error occured during paiment");
+        }
+      );
+      setIsPaying(false);
+    };
+
+    if (!selectedRequest) return null;
     return (
       <Modal
         open={!!selectedRequest}
@@ -80,19 +60,19 @@ const Demandes = () => {
         footer={[
           <Button
             key="refuse"
-            className="bg-red-300 hover:bg-red-500 text-white"
-            onClick={handleRefuse}
+            className="border border-red-300 hover:border-red-500"
+            onClick={() => setSelectedRequest(null)}
           >
-            Refuse
+            Cancel
           </Button>,
           <Button
             key="accept"
             type="primary"
             onClick={handleAccept}
-            disabled={selectedRequest.status == "approved"}
+            loading={isPaying}
             className="bg-blue-950 hover:bg-blue-900"
           >
-            Approve
+            Pay
           </Button>,
         ]}
         className="p-0"
@@ -101,19 +81,17 @@ const Demandes = () => {
           <div className=" w-full h-full  mt-8 center justify-between ">
             <div className=" flex gap-4">
               <div className=" w-12 h-12 rounded-full bg-blue-950 text-gray-100 center ">
-                {" "}
                 <b>{selectedRequest.name[0]}</b>
               </div>
-              <div className="">
-                <h2 className=" font-semibold">{selectedRequest.name}</h2>
-                <h2 className=" text-sm">w.mehal@esi-sba.dz</h2>
+              <div>
+                <h2 className="font-semibold">{selectedRequest.name}</h2>
               </div>
             </div>
             <div>
-              <h2 className=" text-gray-400">{selectedRequest.date}</h2>
+              <h2 className="text-gray-400">{selectedRequest.date}</h2>
             </div>
           </div>
-          <div className=" ">
+          <div>
             <h2>
               <b> Program :</b> Health services
             </h2>
@@ -124,15 +102,17 @@ const Demandes = () => {
               <b>id:</b> {selectedRequest.id}
             </p>
           </div>
-          {selectedRequest.piecejointes.map((item) => (
-            <>
-              <div key={item.id} className="flex items-center justify-between">
-                <p>{item.name}</p>
-                <PdfPreview name={item.name} />
-              </div>
-              <hr />
-            </>
-          ))}
+          <div>
+            <PaymentMethodDropDown onChange={(val) => setMethod(val)} />
+          </div>
+          <div>
+            <Input
+              type="number"
+              id="amount"
+              placeholder="Amount To Pay"
+              onChange={(event) => setAmount(event.target.value)}
+            />
+          </div>
         </div>
         {/* Add more details here */}
       </Modal>
@@ -267,55 +247,6 @@ const Demandes = () => {
       ...getColumnSearchProps("id"),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status"),
-      render: (text, record) => {
-        let statusColor;
-        let bgStatus;
-        switch (record.status) {
-          case "waiting":
-            statusColor = "#477E99";
-            bgStatus = "#ECFAFE";
-            break;
-          case "refused":
-            statusColor = "#FF6B6B";
-            bgStatus = "#FFE9E9";
-
-            break;
-          case "pending":
-            statusColor = "#477E99";
-            bgStatus = "#ECFAFE";
-
-            break;
-          case "approved":
-            statusColor = "#66D04B";
-            bgStatus = "#D9FCD6";
-            break;
-          case "payed":
-            statusColor = "#66D0FF";
-            bgStatus = "#D9FCD6";
-            break;
-          default:
-            statusColor = "blue";
-            break;
-        }
-        return (
-          <span
-            style={{
-              color: statusColor,
-              backgroundColor: bgStatus,
-              padding: "8px 20px",
-              borderRadius: "110px",
-            }}
-          >
-            <b>{text}</b>
-          </span>
-        );
-      },
-    },
-    {
       title: "Date",
       dataIndex: "date",
       key: "date",
@@ -342,4 +273,4 @@ const Demandes = () => {
   );
 };
 
-export default Demandes;
+export default Paiements;

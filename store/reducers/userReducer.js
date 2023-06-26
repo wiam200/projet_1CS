@@ -133,7 +133,6 @@ export const changePassword =
     try {
       const response = await axios.post(
         "http://esi-social.azurewebsites.net/api/users/changepassword",
-
         {
           newPassword,
         },

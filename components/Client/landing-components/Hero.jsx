@@ -13,14 +13,14 @@ export default function Hero() {
           </h1>
           <div className=" flex items-center justify-left gap-x-6">
             <a
-              href="/programs"
+              href="/client/programs"
               className="rounded-2xl bg-[#023047] px-3.5 py-2.5 text-sm font-semibold text-white
             border border-[#023047] hover:text-[#023047] hover:bg-white"
             >
               Get started
             </a>
             <a
-              href="/demands"
+              href="/client/demands"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Consult your demands<span aria-hidden="true">→</span>
